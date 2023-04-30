@@ -11,7 +11,8 @@ import SwiftUI
 struct LearnaApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
+                .environmentObject(ContentView())
         }
     }
 }
