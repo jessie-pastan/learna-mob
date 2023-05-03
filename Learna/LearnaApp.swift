@@ -12,7 +12,7 @@ struct LearnaApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
-                .environmentObject(ContentView())
+                .environmentObject(ContentViewModel())
         }
     }
 }

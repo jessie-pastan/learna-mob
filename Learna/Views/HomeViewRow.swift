@@ -14,6 +14,11 @@ struct HomeViewRow: View {
     var description: String
     var lesson: String
     var time: String
+    var timeOnlyNumber: String {
+        let timeNumber = self.time.split(separator: " ")
+        let timeString = String(timeNumber[0])
+        return timeString
+    }
     
     var body: some View {
         
@@ -41,7 +46,7 @@ struct HomeViewRow: View {
                         .font(.caption)
                         .padding(.bottom, 20)
                     
-                    HStack{
+                    HStack {
                         Image(systemName: "text.book.closed")
                             .frame(width: 15, height: 15)
                         Text("\(lesson)")
@@ -50,15 +55,16 @@ struct HomeViewRow: View {
                         Image(systemName: "clock")
                             .frame(width: 15, height: 15)
                         
-                        let timeNumber = time.split(separator: " ")
-                            
-                        Text(timeNumber[0]  + " " + "Hours")
+                        
+                               
+                        Text(time)
                             .font(.caption)
                     }
                 }
             }
             .padding(.horizontal,20)
         }
+        .padding(.bottom, 15)
     }
 }
 

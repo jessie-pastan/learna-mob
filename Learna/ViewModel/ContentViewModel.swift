@@ -6,14 +6,18 @@
 //
 
 import Foundation
-class ContentView: ObservableObject{
+class ContentViewModel: ObservableObject{
     @Published var modules =  [Module]()
     var styleData: Data?
+    
+    @Published var currentModule: Module? // set as an optional
+    var currentModuleIndex = 0
     
     init(){
        getLocalData()
     }
     
+   //MARK: Data Method
     func getLocalData(){
          
         //parsing  Json data
@@ -46,6 +50,15 @@ class ContentView: ObservableObject{
         }
         
     }
-    
+    //MARK: Mudule Navigation Method
+    func beginModule(_ moduleId: Int){
+        for index in 0..<modules.count{
+            if modules[index].id == moduleId {
+                currentModuleIndex = index
+                break
+            }
+        }
+        currentModule = modules[currentModuleIndex]
+    }
     
 }

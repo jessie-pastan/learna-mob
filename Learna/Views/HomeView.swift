@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @EnvironmentObject var model: ContentView
+    @EnvironmentObject var model: ContentViewModel
     
     var body: some View {
         
@@ -24,16 +24,33 @@ struct HomeView: View {
                 ScrollView {
                     LazyVStack {
                         ForEach(model.modules){ module in
-                            // create learing cards
-                            HomeViewRow(title: "Learn \(module.category)", image: module.content.image, description: module.content.description, lesson: "\(module.content.lessons.count) Lessons", time: module.content.time)
                             
-                            // create test cards
-                            HomeViewRow(title: "\(module.category) Test", image: module.test.image, description: module.test.description, lesson: "\(module.test.questions.count) Questions", time: module.test.time)
+                            NavigationLink(destination:
+                                            ContentView()
+                                            .onAppear(perform: {
+                                model.beginModule(module.id)
+                            })
+                                           
+                                , label: {
+                                
+                                // create learning card
+                                VStack {
+                                    HomeViewRow(title: "Learn \(module.category)", image: module.content.image, description: module.content.description, lesson: "\(module.content.lessons.count) lessons", time: "\(module.content.time)")
+                                    
+                                    
+                                    // create test card
+                                    HomeViewRow(title: "\(module.category) Test", image: module.test.image, description: module.test.description, lesson: "\(module.test.questions.count) lessons", time: "\(module.test.time)")
+                                }
+                                
+                            })
+                            
                             
                             
                         }
                         .padding()
                     }
+                    .accentColor(.black)
+                    
                 }
                 
                 
@@ -44,9 +61,9 @@ struct HomeView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
-            .environmentObject(ContentView())
+            .environmentObject(ContentViewModel())
     }
 }
