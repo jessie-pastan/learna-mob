@@ -25,26 +25,24 @@ struct HomeView: View {
                     LazyVStack {
                         ForEach(model.modules){ module in
                             
-                            NavigationLink(destination:
-                                            ContentView()
-                                            .onAppear(perform: {
-                                model.beginModule(module.id)
-                            })
-                                           
-                                , label: {
-                                
-                                // create learning card
-                                VStack {
-                                    HomeViewRow(title: "Learn \(module.category)", image: module.content.image, description: module.content.description, lesson: "\(module.content.lessons.count) lessons", time: "\(module.content.time)")
+                            VStack {
+                                NavigationLink(destination:
+                                                ContentView()
+                                    .onAppear(perform: {
+                                        model.beginModule(module.id)}),
+                                    tag: module.id,
+                                    selection: $model.currentContentSelected,
+                                    label: {
                                     
+                                    // create learning card
                                     
-                                    // create test card
-                                    HomeViewRow(title: "\(module.category) Test", image: module.test.image, description: module.test.description, lesson: "\(module.test.questions.count) lessons", time: "\(module.test.time)")
-                                }
+                                        HomeViewRow(title: "Learn \(module.category)", image: module.content.image, description: module.content.description, lesson: "\(module.content.lessons.count) lessons", time: "\(module.content.time)")
+                                })
                                 
-                            })
-                            
-                            
+                                
+                                        // create test card
+                                        HomeViewRow(title: "\(module.category) Test", image: module.test.image, description: module.test.description, lesson: "\(module.test.questions.count) lessons", time: "\(module.test.time)")
+                            }
                             
                         }
                         .padding()
@@ -52,11 +50,10 @@ struct HomeView: View {
                     .accentColor(.black)
                     
                 }
-                
-                
             }
             .navigationTitle("Get Started")
         }
+        .navigationViewStyle(.stack)
         
     }
 }

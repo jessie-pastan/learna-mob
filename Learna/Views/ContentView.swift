@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
     @EnvironmentObject var model: ContentViewModel
     
@@ -17,10 +18,22 @@ struct ContentView: View {
                 //confirm that currentModule is set//
                 if model.currentModule != nil{
                     ForEach(0..<model.currentModule!.content.lessons.count, id: \.self ){ index in
-                        ContentViewRow(index: index)
+                        NavigationLink(
+                            destination:
+                            ContentDetailView()
+                                .onAppear(perform: {
+                                    model.beginLesson(index)
+                                    
+                                    
+                        }),
+                            label: {
+                            ContentViewRow(index: index)
+                        })
+                        
                     }
                 }
             }
+            .accentColor(.black)
             .padding()
             .navigationTitle("Learn \(model.currentModule?.category ?? "")")
         }
