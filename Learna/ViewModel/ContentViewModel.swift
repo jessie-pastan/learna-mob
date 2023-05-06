@@ -18,12 +18,17 @@ class ContentViewModel: ObservableObject{
     @Published var currentLesson: Lesson? // set as an optional
     var currentLessonIndex = 0
     
-    //current lesson explanation
-    @Published var lessonDescription  =  NSAttributedString()
+    //Current question
+    @Published var currentQuestion: Question?
+    var currentQuestionIndex = 0
+    
+    //current lesson explanation// test question
+    @Published var codeText  =  NSAttributedString()
     var styleData: Data?
     
     // Current selected content and test
     @Published var currentContentSelected: Int?
+    @Published var currentTestSelected: Int?
     
     init(){
        getLocalData()
@@ -86,8 +91,29 @@ class ContentViewModel: ObservableObject{
         }
         //set the current lesson and current description
         currentLesson = currentModule!.content.lessons[currentLessonIndex]
-        lessonDescription = addStyling(currentLesson!.explanation)
+        codeText = addStyling(currentLesson!.explanation)
     }
+    
+    func beginTest(_ moduleId:Int) {
+           
+           // Set the current module
+           beginModule(moduleId)
+           
+           // Set the current question index
+           currentQuestionIndex = 0
+           
+           // If there are questions, set the current question to the first one
+           if currentModule?.test.questions.count ?? 0  > 0 {
+               currentQuestion = currentModule!.test.questions[currentQuestionIndex]
+               
+               codeText = addStyling(currentQuestion!.content)
+           }
+       }
+    
+    
+    
+    
+    
     
     func hasNextLesson()->Bool{
         return (currentLessonIndex + 1 < currentModule!.content.lessons.count)
@@ -96,11 +122,11 @@ class ContentViewModel: ObservableObject{
     func nextLesson(){
         //Advance the lesson Index
         currentLessonIndex += 1
-        //Check that it is withn range
+        //Check that it is within range
         if currentLessonIndex < currentModule!.content.lessons.count{
             // set the current lesson property
             currentLesson = currentModule!.content.lessons[currentLessonIndex]
-            lessonDescription = addStyling(currentLesson!.explanation)
+            codeText = addStyling(currentLesson!.explanation)
         }
         else{
             //reset the lesson state

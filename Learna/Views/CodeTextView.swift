@@ -17,7 +17,7 @@ struct CodeTextView: UIViewRepresentable {
     
     func updateUIView(_ textView: UITextView, context: Context) {
         //set attributed text for the lesson
-        textView.attributedText = model.lessonDescription
+        textView.attributedText = model.codeText
         //Scroll up to the top
         
     }

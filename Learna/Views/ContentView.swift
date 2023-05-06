@@ -15,7 +15,7 @@ struct ContentView: View {
         
         ScrollView {
             LazyVStack {
-                //confirm that currentModule is set//
+                //confirm that currentModule is set first//
                 if model.currentModule != nil{
                     ForEach(0..<model.currentModule!.content.lessons.count, id: \.self ){ index in
                         NavigationLink(
