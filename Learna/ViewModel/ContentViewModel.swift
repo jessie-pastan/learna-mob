@@ -30,6 +30,8 @@ class ContentViewModel: ObservableObject{
     @Published var currentContentSelected: Int?
     @Published var currentTestSelected: Int?
     
+    
+    
     init(){
        getLocalData()
     }
@@ -122,7 +124,7 @@ class ContentViewModel: ObservableObject{
     func nextLesson(){
         //Advance the lesson Index
         currentLessonIndex += 1
-        //Check that it is within range
+        //Check that it is within range of lesson contents
         if currentLessonIndex < currentModule!.content.lessons.count{
             // set the current lesson property
             currentLesson = currentModule!.content.lessons[currentLessonIndex]
@@ -135,17 +137,31 @@ class ContentViewModel: ObservableObject{
         }
     }
     
+    func nextQuestion(){
+        //Advance the question Index
+        currentQuestionIndex += 1
+        //Check that it is within range of questions
+        if currentQuestionIndex < currentModule!.test.questions.count{
+            currentQuestion = currentModule!.test.questions[currentQuestionIndex]
+            codeText = addStyling(currentQuestion!.content)
+        }
+        // if index not within the ranage(means out of question)
+        //  then reset the properties
+        else{
+            currentQuestionIndex = 0
+            currentQuestion = nil
+        }
+    }
     
-    
-    //MARK: Attributed String Method(Code styling)
+    //MARK: Attributed String Method(Code  styling)
     private func addStyling(_ htmlString : String)-> NSAttributedString{
         var resultString = NSAttributedString()
         var data = Data()
-        //add styling data
+        //add styling data(css)
         if styleData != nil{
             data.append(styleData!)
         }
-        //add html data
+        //add html data(html)
         data.append(Data(htmlString.utf8))
         //convert to attributed string
         if let attributedString = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil){
